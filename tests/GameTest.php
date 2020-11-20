@@ -7,29 +7,24 @@ use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
 {
-    public function testShouldCreateGame()
+    private TestableGame $game;
+
+    public function setUp(): void
     {
-        $game = new TestableGame();
-        self::assertNotNull($game);
+        $this->game = new TestableGame();
+        $this->game->add('gholam');
+        $this->game->add('ghamar');
     }
 
     public function testShouldAddPlayers()
     {
-        // Arrange
-        $game = new TestableGame();
-
-        // Act
-        $game->add('gholam');
-        $game->add('ghamar');
-
-        // Assert
         self::assertEquals(<<<EOF
             gholam was added
             They are player number 1
             ghamar was added
             They are player number 2
             
-            EOF, $game::$output);
+            EOF, $this->game::$output);
     }
 }
 
