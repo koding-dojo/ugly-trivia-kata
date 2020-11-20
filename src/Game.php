@@ -55,7 +55,7 @@ class Game
         $this->inPenaltyBox[$this->howManyPlayers()] = false;
 
         static::echoln($playerName . " was added");
-        static::echoln("They are player number " . count($this->players));
+        static::echoln("They are player number " . $this->howManyPlayers());
         return true;
     }
 
