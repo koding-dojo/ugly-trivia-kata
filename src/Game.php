@@ -9,18 +9,18 @@ function echoln($string)
 
 class Game
 {
-    public $players;
-    public $places;
-    public $purses ;
-    public $inPenaltyBox ;
+    private array $players;
+    private array $places;
+    private array $purses;
+    private array $inPenaltyBox;
 
-    public $popQuestions;
-    public $scienceQuestions;
-    public $sportsQuestions;
-    public $rockQuestions;
+    private array $popQuestions;
+    private array $scienceQuestions;
+    private array $sportsQuestions;
+    private array $rockQuestions;
 
-    public $currentPlayer = 0;
-    public $isGettingOutOfPenaltyBox;
+    private int $currentPlayer = 0;
+    private bool $isGettingOutOfPenaltyBox;
 
     public function __construct()
     {
