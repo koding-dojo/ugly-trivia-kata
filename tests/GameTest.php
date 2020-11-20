@@ -26,6 +26,24 @@ class GameTest extends TestCase
             
             EOF, $this->game::$output);
     }
+
+    public function testRollWhenPlayerIsNotInPenaltyBox()
+    {
+        $this->game->roll(1);
+
+        self::assertEquals(<<<EOF
+            gholam was added
+            They are player number 1
+            ghamar was added
+            They are player number 2
+            gholam is the current player
+            They have rolled a 1
+            gholam's new location is 1
+            The category is Science
+            Science Question 0
+
+            EOF, $this->game::$output);
+    }
 }
 
 class TestableGame extends Game
