@@ -1,6 +1,8 @@
 <?php
 
-include __DIR__ . 'Game.php';
+namespace Trivia;
+
+include __DIR__ . '/Game.php';
 
 $notAWinner = false;
 
@@ -19,4 +21,3 @@ do {
       $notAWinner = $aGame->wasCorrectlyAnswered();
     }
 } while ($notAWinner);
-  

@@ -1,0 +1,32 @@
+{
+  "name": "kodingdojo/ugly-trivia-kata",
+  "description": "Ugly trivia kata",
+  "minimum-stability": "stable",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "jbrains",
+      "homepage": "https://jbrains.ca"
+    },
+    {
+      "name": "a3dho3yn",
+      "homepage": "https://a3dho3yn.ir"
+    }
+  ],
+  "require": {
+    "php": "7.4.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Trivia\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  }
+}
