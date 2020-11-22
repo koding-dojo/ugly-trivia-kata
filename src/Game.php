@@ -42,7 +42,7 @@ class Game
         return ($this->playersCount() >= 2);
     }
 
-    public function add($playerName)
+    public function addPlayer($playerName)
     {
         $this->players[] = new Player($playerName, 0);
         static::echoln($playerName . " was added");

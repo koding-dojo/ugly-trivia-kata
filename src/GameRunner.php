@@ -8,9 +8,9 @@ $notAWinner = false;
 
 $aGame = new Game();
 
-$aGame->add("Chet");
-$aGame->add("Pat");
-$aGame->add("Sue");
+$aGame->addPlayer("Chet");
+$aGame->addPlayer("Pat");
+$aGame->addPlayer("Sue");
 
 do {
     $aGame->roll(rand(0,5) + 1);

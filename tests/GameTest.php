@@ -12,8 +12,8 @@ class GameTest extends TestCase
     public function setUp(): void
     {
         $this->game = new TestableGame();
-        $this->game->add('gholam');
-        $this->game->add('ghamar');
+        $this->game->addPlayer('gholam');
+        $this->game->addPlayer('ghamar');
     }
 
     public function tearDown(): void
@@ -36,7 +36,7 @@ class GameTest extends TestCase
     public function testBugIsPlayableWithOnePlayer()
     {
         $game = new TestableGame();
-        $game->add('gholam');
+        $game->addPlayer('gholam');
         $game->roll(1);
         $game->wrongAnswer();
         $game->roll(1);
@@ -181,10 +181,10 @@ class GameTest extends TestCase
 
     public function testSixPlayersWithTwelveRolls()
     {
-        $this->game->add('ghanbar');
-        $this->game->add('ghodrat');
-        $this->game->add('gheysar');
-        $this->game->add('ghesmat');
+        $this->game->addPlayer('ghanbar');
+        $this->game->addPlayer('ghodrat');
+        $this->game->addPlayer('gheysar');
+        $this->game->addPlayer('ghesmat');
         for ($i = 1; $i < 12; $i++) {
             $this->game->roll($i);
             if ($i % 2 == 0) {
