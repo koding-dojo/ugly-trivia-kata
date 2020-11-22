@@ -180,11 +180,7 @@ class Game
      */
     private function findWinner(): bool
     {
-        $this->purses[$this->currentPlayer]++;
-        static::echoln($this->players[$this->currentPlayer]
-            . " now has "
-            . $this->purses[$this->currentPlayer]
-            . " Gold Coins.");
+        $this->addCoins();
 
         $winner = $this->didPlayerWin();
         $this->currentPlayer++;
@@ -193,5 +189,14 @@ class Game
         }
 
         return $winner;
+    }
+
+    private function addCoins(): void
+    {
+        $this->purses[$this->currentPlayer]++;
+        static::echoln($this->players[$this->currentPlayer]
+            . " now has "
+            . $this->purses[$this->currentPlayer]
+            . " Gold Coins.");
     }
 }
