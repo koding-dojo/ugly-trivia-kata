@@ -8,13 +8,15 @@ class Player
     private int $place;
     private int $coins;
     private bool $isInPenaltyBox;
+    private Logger $logger;
 
-    public function __construct(string $name, int $place)
+    public function __construct(string $name, int $place, Logger $logger)
     {
         $this->name = $name;
         $this->place = $place;
         $this->coins = 0;
         $this->isInPenaltyBox = false;
+        $this->logger = $logger;
     }
 
     public function promote(int $places)

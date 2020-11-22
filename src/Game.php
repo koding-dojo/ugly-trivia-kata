@@ -51,7 +51,7 @@ class Game
 
     public function addPlayer($playerName)
     {
-        $this->players[] = new Player($playerName, 0);
+        $this->players[] = new Player($playerName, 0, $this->logger);
         $this->logger->log($playerName . " was added");
         $this->logger->log("They are player number " . $this->playersCount());
         return true;
