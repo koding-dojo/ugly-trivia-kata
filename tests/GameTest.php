@@ -3,23 +3,20 @@
 namespace Tests;
 
 use Trivia\Game;
+use Trivia\Logger;
 use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
 {
-    private TestableGame $game;
+    private Game $game;
+    private StringLogger $logger;
 
     public function setUp(): void
     {
-        $this->game = new TestableGame();
+        $this->logger = new StringLogger();
+        $this->game = new Game($this->logger);
         $this->game->addPlayer('gholam');
         $this->game->addPlayer('ghamar');
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-        TestableGame::$output = '';
     }
 
     public function testShouldAddPlayers()
@@ -30,12 +27,12 @@ class GameTest extends TestCase
             ghamar was added
             They are player number 2
             
-            EOF, $this->game::$output);
+            EOF, $this->logger->flush());
     }
 
     public function testBugIsPlayableWithOnePlayer()
     {
-        $game = new TestableGame();
+        $game = new Game($this->logger);
         $game->addPlayer('gholam');
         $game->roll(1);
         $game->wrongAnswer();
@@ -80,7 +77,7 @@ class GameTest extends TestCase
             They have rolled a 2
             gholam is not getting out of the penalty box
             
-            EOF, $game::$output);
+            EOF, $this->logger->flush());
     }
 
     public function testRollWhenPlayerIsNotInPenaltyBox()
@@ -101,7 +98,7 @@ class GameTest extends TestCase
             Answer was corrent!!!!
             gholam now has 1 Gold Coins.
             
-            EOF, $this->game::$output);
+            EOF, $this->logger->flush());
     }
 
     public function testRollOddWhenPlayerIsInPenaltyBox()
@@ -141,7 +138,7 @@ class GameTest extends TestCase
             Answer was correct!!!!
             gholam now has 1 Gold Coins.
 
-            EOF, $this->game::$output);
+            EOF, $this->logger->flush());
     }
 
     public function testRollEvenWhenPlayerIsInPenaltyBox()
@@ -176,7 +173,7 @@ class GameTest extends TestCase
             They have rolled a 2
             gholam is not getting out of the penalty box
 
-            EOF, $this->game::$output);
+            EOF, $this->logger->flush());
     }
 
     public function testSixPlayersWithTwelveRolls()
@@ -288,15 +285,23 @@ class GameTest extends TestCase
             Question was incorrectly answered
             gheysar was sent to the penalty box
             
-            EOF, TestableGame::$output);
+            EOF, $this->logger->flush());
     }
 }
 
-class TestableGame extends Game
+class StringLogger implements Logger
 {
-    public static string $output = '';
-    protected static function echoln($string)
+    private string $buffer = '';
+
+    public function log(string $msg)
     {
-        self::$output .= $string."\n";
+        $this->buffer .= $msg . "\n";
+    }
+
+    public function flush()
+    {
+        $output = $this->buffer;
+        $buffer = '';
+        return $output;
     }
 }
