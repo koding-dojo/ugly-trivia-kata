@@ -33,6 +33,56 @@ class GameTest extends TestCase
             EOF, $this->game::$output);
     }
 
+    public function testBugIsPlayableWithOnePlayer()
+    {
+        $game = new TestableGame();
+        $game->add('gholam');
+        $game->roll(1);
+        $game->wrongAnswer();
+        $game->roll(1);
+        $game->wasCorrectlyAnswered();
+        $game->roll(1);
+        $game->wrongAnswer();
+        $game->roll(2);
+        $game->wasCorrectlyAnswered();
+
+        self::assertEquals(<<<EOF
+            gholam was added
+            They are player number 1
+            ghamar was added
+            They are player number 2
+            gholam was added
+            They are player number 1
+            gholam is the current player
+            They have rolled a 1
+            gholam's new location is 1
+            The category is Science
+            Science Question 0
+            Question was incorrectly answered
+            gholam was sent to the penalty box
+            gholam is the current player
+            They have rolled a 1
+            gholam is getting out of the penalty box
+            gholam's new location is 2
+            The category is Sports
+            Sports Question 0
+            Answer was correct!!!!
+            gholam now has 1 Gold Coins.
+            gholam is the current player
+            They have rolled a 1
+            gholam is getting out of the penalty box
+            gholam's new location is 3
+            The category is Rock
+            Rock Question 0
+            Question was incorrectly answered
+            gholam was sent to the penalty box
+            gholam is the current player
+            They have rolled a 2
+            gholam is not getting out of the penalty box
+            
+            EOF, $game::$output);
+    }
+
     public function testRollWhenPlayerIsNotInPenaltyBox()
     {
         $this->game->roll(1);
