@@ -163,14 +163,14 @@ class Game
 
                 $winner = $this->didPlayerWin();
                 $this->currentPlayer++;
-                if ($this->currentPlayer == count($this->players)) {
+                if ($this->currentPlayer == $this->howManyPlayers()) {
                     $this->currentPlayer = 0;
                 }
 
                 return $winner;
             } else {
                 $this->currentPlayer++;
-                if ($this->currentPlayer == count($this->players)) {
+                if ($this->currentPlayer == $this->howManyPlayers()) {
                     $this->currentPlayer = 0;
                 }
                 return true;
@@ -185,7 +185,7 @@ class Game
 
             $winner = $this->didPlayerWin();
             $this->currentPlayer++;
-            if ($this->currentPlayer == count($this->players)) {
+            if ($this->currentPlayer == $this->howManyPlayers()) {
                 $this->currentPlayer = 0;
             }
 
@@ -200,7 +200,7 @@ class Game
         $this->inPenaltyBox[$this->currentPlayer] = true;
 
         $this->currentPlayer++;
-        if ($this->currentPlayer == count($this->players)) {
+        if ($this->currentPlayer == $this->howManyPlayers()) {
             $this->currentPlayer = 0;
         }
         return true;
