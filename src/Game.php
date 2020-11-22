@@ -4,10 +4,8 @@ namespace Trivia;
 
 class Game
 {
+    /** @var Player[] */
     private array $players;
-    private array $places;
-    private array $purses;
-    private array $inPenaltyBox;
 
     private array $popQuestions;
     private array $scienceQuestions;
@@ -20,9 +18,6 @@ class Game
     public function __construct()
     {
         $this->players = array();
-        $this->places = array(0);
-        $this->purses  = array(0);
-        $this->inPenaltyBox  = array(0);
 
         $this->popQuestions = array();
         $this->scienceQuestions = array();
@@ -49,11 +44,7 @@ class Game
 
     public function add($playerName)
     {
-        $this->players[] = $playerName;
-        $this->places[$this->howManyPlayers()] = 0;
-        $this->purses[$this->howManyPlayers()] = 0;
-        $this->inPenaltyBox[$this->howManyPlayers()] = false;
-
+        $this->players[] = new Player($playerName, 0);
         static::echoln($playerName . " was added");
         static::echoln("They are player number " . $this->howManyPlayers());
         return true;
@@ -69,7 +60,7 @@ class Game
         static::echoln($this->players[$this->currentPlayer] . " is the current player");
         static::echoln("They have rolled a " . $roll);
 
-        if ($this->inPenaltyBox[$this->currentPlayer]) {
+        if ($this->players[$this->currentPlayer]->isInPenaltyBox()) {
             if ($roll % 2 != 0) {
                 $this->isGettingOutOfPenaltyBox = true;
                 static::echoln($this->players[$this->currentPlayer] . " is getting out of the penalty box");
@@ -101,7 +92,7 @@ class Game
 
     public function currentCategory()
     {
-        switch ($this->places[$this->currentPlayer] % 4) {
+        switch ($this->players[$this->currentPlayer]->getPlace() % 4) {
             case 0:
                 return "Pop";
             case 1:
@@ -124,16 +115,10 @@ class Game
     {
         static::echoln("Question was incorrectly answered");
         static::echoln($this->players[$this->currentPlayer] . " was sent to the penalty box");
-        $this->inPenaltyBox[$this->currentPlayer] = true;
+        $this->players[$this->currentPlayer]->setPenalty(true);
 
         $this->moveTurn();
         return true;
-    }
-
-
-    public function didPlayerWin()
-    {
-        return !($this->purses[$this->currentPlayer] == 6);
     }
 
     protected static function echoln($string)
@@ -146,7 +131,7 @@ class Game
      */
     private function findWinner(): bool
     {
-        if ($this->inPenaltyBox[$this->currentPlayer]) {
+        if ($this->players[$this->currentPlayer]->isInPenaltyBox()) {
             if ($this->isGettingOutOfPenaltyBox) {
                 static::echoln("Answer was correct!!!!");
             } else {
@@ -157,15 +142,15 @@ class Game
         }
 
         $this->addCoins();
-        return $this->didPlayerWin();
+        return $this->players[$this->currentPlayer]->isWinner();
     }
 
     private function addCoins(): void
     {
-        $this->purses[$this->currentPlayer]++;
+        $this->players[$this->currentPlayer]->incrCoins();
         static::echoln($this->players[$this->currentPlayer]
             . " now has "
-            . $this->purses[$this->currentPlayer]
+            . $this->players[$this->currentPlayer]->getCoins()
             . " Gold Coins.");
     }
 
@@ -182,14 +167,11 @@ class Game
      */
     private function movePlace($roll): void
     {
-        $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
-        if ($this->places[$this->currentPlayer] > 11) {
-            $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
-        }
-
+        $this->players[$this->currentPlayer]->promote($roll);
         static::echoln($this->players[$this->currentPlayer]
             . "'s new location is "
-            . $this->places[$this->currentPlayer]);
+            . $this->players[$this->currentPlayer]->getPlace());
+
         static::echoln("The category is " . $this->currentCategory());
         $this->askQuestion();
     }
