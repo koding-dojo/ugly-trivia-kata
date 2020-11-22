@@ -72,33 +72,14 @@ class Game
         if ($this->inPenaltyBox[$this->currentPlayer]) {
             if ($roll % 2 != 0) {
                 $this->isGettingOutOfPenaltyBox = true;
-
                 static::echoln($this->players[$this->currentPlayer] . " is getting out of the penalty box");
-                $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
-                if ($this->places[$this->currentPlayer] > 11) {
-                    $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
-                }
-
-                static::echoln($this->players[$this->currentPlayer]
-                    . "'s new location is "
-                    . $this->places[$this->currentPlayer]);
-                static::echoln("The category is " . $this->currentCategory());
-                $this->askQuestion();
+                $this->movePlace($roll);
             } else {
                 static::echoln($this->players[$this->currentPlayer] . " is not getting out of the penalty box");
                 $this->isGettingOutOfPenaltyBox = false;
             }
         } else {
-            $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
-            if ($this->places[$this->currentPlayer] > 11) {
-                $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
-            }
-
-            static::echoln($this->players[$this->currentPlayer]
-                . "'s new location is "
-                . $this->places[$this->currentPlayer]);
-            static::echoln("The category is " . $this->currentCategory());
-            $this->askQuestion();
+            $this->movePlace($roll);
         }
     }
 
@@ -194,5 +175,22 @@ class Game
         if ($this->currentPlayer == $this->howManyPlayers()) {
             $this->currentPlayer = 0;
         }
+    }
+
+    /**
+     * @param $roll
+     */
+    private function movePlace($roll): void
+    {
+        $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
+        if ($this->places[$this->currentPlayer] > 11) {
+            $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
+        }
+
+        static::echoln($this->players[$this->currentPlayer]
+            . "'s new location is "
+            . $this->places[$this->currentPlayer]);
+        static::echoln("The category is " . $this->currentCategory());
+        $this->askQuestion();
     }
 }
