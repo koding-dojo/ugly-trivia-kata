@@ -139,10 +139,7 @@ class Game
                 static::echoln("Answer was correct!!!!");
                 return $this->findWinner();
             } else {
-                $this->currentPlayer++;
-                if ($this->currentPlayer == $this->howManyPlayers()) {
-                    $this->currentPlayer = 0;
-                }
+                $this->moveTurn();
                 return true;
             }
         } else {
@@ -157,10 +154,7 @@ class Game
         static::echoln($this->players[$this->currentPlayer] . " was sent to the penalty box");
         $this->inPenaltyBox[$this->currentPlayer] = true;
 
-        $this->currentPlayer++;
-        if ($this->currentPlayer == $this->howManyPlayers()) {
-            $this->currentPlayer = 0;
-        }
+        $this->moveTurn();
         return true;
     }
 
@@ -181,12 +175,8 @@ class Game
     private function findWinner(): bool
     {
         $this->addCoins();
-
         $winner = $this->didPlayerWin();
-        $this->currentPlayer++;
-        if ($this->currentPlayer == $this->howManyPlayers()) {
-            $this->currentPlayer = 0;
-        }
+        $this->moveTurn();
 
         return $winner;
     }
@@ -198,5 +188,13 @@ class Game
             . " now has "
             . $this->purses[$this->currentPlayer]
             . " Gold Coins.");
+    }
+
+    private function moveTurn(): void
+    {
+        $this->currentPlayer++;
+        if ($this->currentPlayer == $this->howManyPlayers()) {
+            $this->currentPlayer = 0;
+        }
     }
 }
