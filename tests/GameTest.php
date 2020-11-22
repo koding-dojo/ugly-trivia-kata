@@ -16,6 +16,12 @@ class GameTest extends TestCase
         $this->game->add('ghamar');
     }
 
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        TestableGame::$output = '';
+    }
+
     public function testShouldAddPlayers()
     {
         self::assertEquals(<<<EOF
