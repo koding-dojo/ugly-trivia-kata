@@ -178,6 +178,118 @@ class GameTest extends TestCase
 
             EOF, $this->game::$output);
     }
+
+    public function testSixPlayersWithTwelveRolls()
+    {
+        $this->game->add('ghanbar');
+        $this->game->add('ghodrat');
+        $this->game->add('gheysar');
+        $this->game->add('ghesmat');
+        for ($i = 1; $i < 12; $i++) {
+            $this->game->roll($i);
+            if ($i % 2 == 0) {
+                $this->game->wasCorrectlyAnswered();
+            } else {
+                $this->game->wrongAnswer();
+            }
+        }
+
+        self::assertEquals(<<<EOF
+            gholam was added
+            They are player number 1
+            ghamar was added
+            They are player number 2
+            ghanbar was added
+            They are player number 3
+            ghodrat was added
+            They are player number 4
+            gheysar was added
+            They are player number 5
+            ghesmat was added
+            They are player number 6
+            gholam is the current player
+            They have rolled a 1
+            gholam's new location is 1
+            The category is Science
+            Science Question 0
+            Question was incorrectly answered
+            gholam was sent to the penalty box
+            ghamar is the current player
+            They have rolled a 2
+            ghamar's new location is 2
+            The category is Sports
+            Sports Question 0
+            Answer was corrent!!!!
+            ghamar now has 1 Gold Coins.
+            ghanbar is the current player
+            They have rolled a 3
+            ghanbar's new location is 3
+            The category is Rock
+            Rock Question 0
+            Question was incorrectly answered
+            ghanbar was sent to the penalty box
+            ghodrat is the current player
+            They have rolled a 4
+            ghodrat's new location is 4
+            The category is Pop
+            Pop Question 00
+            Answer was corrent!!!!
+            ghodrat now has 1 Gold Coins.
+            gheysar is the current player
+            They have rolled a 5
+            gheysar's new location is 5
+            The category is Science
+            Science Question 1
+            Question was incorrectly answered
+            gheysar was sent to the penalty box
+            ghesmat is the current player
+            They have rolled a 6
+            ghesmat's new location is 6
+            The category is Sports
+            Sports Question 1
+            Answer was corrent!!!!
+            ghesmat now has 1 Gold Coins.
+            gholam is the current player
+            They have rolled a 7
+            gholam is getting out of the penalty box
+            gholam's new location is 8
+            The category is Pop
+            Pop Question 11
+            Question was incorrectly answered
+            gholam was sent to the penalty box
+            ghamar is the current player
+            They have rolled a 8
+            ghamar's new location is 10
+            The category is Sports
+            Sports Question 2
+            Answer was corrent!!!!
+            ghamar now has 2 Gold Coins.
+            ghanbar is the current player
+            They have rolled a 9
+            ghanbar is getting out of the penalty box
+            ghanbar's new location is 0
+            The category is Pop
+            Pop Question 22
+            Question was incorrectly answered
+            ghanbar was sent to the penalty box
+            ghodrat is the current player
+            They have rolled a 10
+            ghodrat's new location is 2
+            The category is Sports
+            Sports Question 3
+            Answer was corrent!!!!
+            ghodrat now has 2 Gold Coins.
+            gheysar is the current player
+            They have rolled a 11
+            gheysar is getting out of the penalty box
+            gheysar's new location is 4
+            The category is Pop
+            Pop Question 33
+            Question was incorrectly answered
+            gheysar was sent to the penalty box
+            
+            EOF, TestableGame::$output);
+    }
 }
 
 class TestableGame extends Game
