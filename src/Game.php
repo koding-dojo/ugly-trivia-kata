@@ -137,15 +137,17 @@ class Game
         if ($this->inPenaltyBox[$this->currentPlayer]) {
             if ($this->isGettingOutOfPenaltyBox) {
                 static::echoln("Answer was correct!!!!");
-                return $this->findWinner();
+                $isWinner = $this->findWinner();
             } else {
-                $this->moveTurn();
-                return true;
+                $isWinner = true;
             }
         } else {
             static::echoln("Answer was corrent!!!!");
-            return $this->findWinner();
+            $isWinner = $this->findWinner();
         }
+
+        $this->moveTurn();
+        return $isWinner;
     }
 
     public function wrongAnswer()
@@ -175,10 +177,7 @@ class Game
     private function findWinner(): bool
     {
         $this->addCoins();
-        $winner = $this->didPlayerWin();
-        $this->moveTurn();
-
-        return $winner;
+        return $this->didPlayerWin();
     }
 
     private function addCoins(): void
