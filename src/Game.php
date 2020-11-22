@@ -137,19 +137,7 @@ class Game
         if ($this->inPenaltyBox[$this->currentPlayer]) {
             if ($this->isGettingOutOfPenaltyBox) {
                 static::echoln("Answer was correct!!!!");
-                $this->purses[$this->currentPlayer]++;
-                static::echoln($this->players[$this->currentPlayer]
-                    . " now has "
-                    . $this->purses[$this->currentPlayer]
-                    . " Gold Coins.");
-
-                $winner = $this->didPlayerWin();
-                $this->currentPlayer++;
-                if ($this->currentPlayer == $this->howManyPlayers()) {
-                    $this->currentPlayer = 0;
-                }
-
-                return $winner;
+                return $this->findWinner();
             } else {
                 $this->currentPlayer++;
                 if ($this->currentPlayer == $this->howManyPlayers()) {
@@ -159,19 +147,7 @@ class Game
             }
         } else {
             static::echoln("Answer was corrent!!!!");
-            $this->purses[$this->currentPlayer]++;
-            static::echoln($this->players[$this->currentPlayer]
-                . " now has "
-                . $this->purses[$this->currentPlayer]
-                . " Gold Coins.");
-
-            $winner = $this->didPlayerWin();
-            $this->currentPlayer++;
-            if ($this->currentPlayer == $this->howManyPlayers()) {
-                $this->currentPlayer = 0;
-            }
-
-            return $winner;
+            return $this->findWinner();
         }
     }
 
@@ -197,5 +173,25 @@ class Game
     protected static function echoln($string)
     {
         echo $string . "\n";
+    }
+
+    /**
+     * @return bool
+     */
+    private function findWinner(): bool
+    {
+        $this->purses[$this->currentPlayer]++;
+        static::echoln($this->players[$this->currentPlayer]
+            . " now has "
+            . $this->purses[$this->currentPlayer]
+            . " Gold Coins.");
+
+        $winner = $this->didPlayerWin();
+        $this->currentPlayer++;
+        if ($this->currentPlayer == $this->howManyPlayers()) {
+            $this->currentPlayer = 0;
+        }
+
+        return $winner;
     }
 }
