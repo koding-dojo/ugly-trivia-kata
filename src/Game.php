@@ -67,7 +67,7 @@ class Game
         $this->logger->log($this->players[$this->currentPlayer] . " is the current player");
         $this->logger->log("They have rolled a " . $roll);
 
-        if ($this->players[$this->currentPlayer]->isInPenaltyBox()) {
+        if ($this->players[$this->currentPlayer]->isPenalized()) {
             if ($roll % 2 != 0) {
                 $this->isGettingOutOfPenaltyBox = true;
                 $this->logger->log($this->players[$this->currentPlayer] . " is getting out of the penalty box");
@@ -121,16 +121,9 @@ class Game
     public function wrongAnswer()
     {
         $this->logger->log("Question was incorrectly answered");
-        $this->logger->log($this->players[$this->currentPlayer] . " was sent to the penalty box");
-        $this->players[$this->currentPlayer]->setPenalty(true);
-
+        $this->players[$this->currentPlayer]->penalize();
         $this->moveTurn();
         return true;
-    }
-
-    protected static function echoln($string)
-    {
-        echo $string . "\n";
     }
 
     /**
@@ -138,7 +131,7 @@ class Game
      */
     private function findWinner(): bool
     {
-        if ($this->players[$this->currentPlayer]->isInPenaltyBox()) {
+        if ($this->players[$this->currentPlayer]->isPenalized()) {
             if ($this->isGettingOutOfPenaltyBox) {
                 $this->logger->log("Answer was correct!!!!");
             } else {
@@ -155,10 +148,6 @@ class Game
     private function addCoins(): void
     {
         $this->players[$this->currentPlayer]->incrCoins();
-        $this->logger->log($this->players[$this->currentPlayer]
-            . " now has "
-            . $this->players[$this->currentPlayer]->getCoins()
-            . " Gold Coins.");
     }
 
     private function moveTurn(): void
@@ -175,10 +164,6 @@ class Game
     private function movePlace($roll): void
     {
         $this->players[$this->currentPlayer]->promote($roll);
-        $this->logger->log($this->players[$this->currentPlayer]
-            . "'s new location is "
-            . $this->players[$this->currentPlayer]->getPlace());
-
         $this->logger->log("The category is " . $this->currentCategory());
         $this->askQuestion();
     }

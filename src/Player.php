@@ -7,7 +7,7 @@ class Player
     private string $name;
     private int $place;
     private int $coins;
-    private bool $isInPenaltyBox;
+    private bool $isPenalized;
     private Logger $logger;
 
     public function __construct(string $name, int $place, Logger $logger)
@@ -15,7 +15,7 @@ class Player
         $this->name = $name;
         $this->place = $place;
         $this->coins = 0;
-        $this->isInPenaltyBox = false;
+        $this->isPenalized = false;
         $this->logger = $logger;
     }
 
@@ -25,6 +25,7 @@ class Player
         if ($this->place > 11) {
             $this->place -= 12;
         }
+        $this->logger->log($this . "'s new location is " . $this->place);
     }
 
     public function getPlace(): int
@@ -32,19 +33,15 @@ class Player
         return $this->place;
     }
 
-    public function incrCoins(int $amount = 1)
+    public function incrCoins()
     {
-        $this->coins += $amount;
+        $this->coins++;
+        $this->logger->log($this . " now has " . $this->coins . " Gold Coins.");
     }
 
-    public function getCoins()
+    public function isPenalized(): bool
     {
-        return $this->coins;
-    }
-
-    public function isInPenaltyBox(): bool
-    {
-        return $this->isInPenaltyBox;
+        return $this->isPenalized;
     }
 
     public function isWinner()
@@ -52,9 +49,10 @@ class Player
         return $this->coins !== 6;
     }
 
-    public function setPenalty(bool $status)
+    public function penalize()
     {
-        $this->isInPenaltyBox = $status;
+        $this->isPenalized = true;
+        $this->logger->log($this . " was sent to the penalty box");
     }
 
     public function __toString(): string
