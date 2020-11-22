@@ -39,18 +39,18 @@ class Game
 
     public function isPlayable()
     {
-        return ($this->howManyPlayers() >= 2);
+        return ($this->playersCount() >= 2);
     }
 
     public function add($playerName)
     {
         $this->players[] = new Player($playerName, 0);
         static::echoln($playerName . " was added");
-        static::echoln("They are player number " . $this->howManyPlayers());
+        static::echoln("They are player number " . $this->playersCount());
         return true;
     }
 
-    public function howManyPlayers()
+    public function playersCount()
     {
         return count($this->players);
     }
@@ -157,7 +157,7 @@ class Game
     private function moveTurn(): void
     {
         $this->currentPlayer++;
-        if ($this->currentPlayer == $this->howManyPlayers()) {
+        if ($this->currentPlayer == $this->playersCount()) {
             $this->currentPlayer = 0;
         }
     }
