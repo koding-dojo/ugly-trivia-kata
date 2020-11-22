@@ -120,34 +120,16 @@ class Game
 
     public function currentCategory()
     {
-        if ($this->places[$this->currentPlayer] == 0) {
-            return "Pop";
+        switch ($this->places[$this->currentPlayer] % 4) {
+            case 0:
+                return "Pop";
+            case 1:
+                return "Science";
+            case 2:
+                return "Sports";
+            default:
+                return "Rock";
         }
-        if ($this->places[$this->currentPlayer] == 4) {
-            return "Pop";
-        }
-        if ($this->places[$this->currentPlayer] == 8) {
-            return "Pop";
-        }
-        if ($this->places[$this->currentPlayer] == 1) {
-            return "Science";
-        }
-        if ($this->places[$this->currentPlayer] == 5) {
-            return "Science";
-        }
-        if ($this->places[$this->currentPlayer] == 9) {
-            return "Science";
-        }
-        if ($this->places[$this->currentPlayer] == 2) {
-            return "Sports";
-        }
-        if ($this->places[$this->currentPlayer] == 6) {
-            return "Sports";
-        }
-        if ($this->places[$this->currentPlayer] == 10) {
-            return "Sports";
-        }
-        return "Rock";
     }
 
     public function wasCorrectlyAnswered()
