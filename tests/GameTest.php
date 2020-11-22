@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Trivia\Game;
-use Trivia\Logger;
+use Trivia\StringLogger;
 use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
@@ -286,22 +286,5 @@ class GameTest extends TestCase
             gheysar was sent to the penalty box
             
             EOF, $this->logger->flush());
-    }
-}
-
-class StringLogger implements Logger
-{
-    private string $buffer = '';
-
-    public function log(string $msg)
-    {
-        $this->buffer .= $msg . "\n";
-    }
-
-    public function flush()
-    {
-        $output = $this->buffer;
-        $buffer = '';
-        return $output;
     }
 }
